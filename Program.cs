@@ -25,30 +25,33 @@ namespace PingPong3
             int dem = 0;
             for(int i = 0; dem < 120; i++)
             {
+                if (i == 10) i = 0;
                 if (i == 9)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor= ConsoleColor.Red;
                     Console.Write(i);
                     Console.ForegroundColor = ConsoleColor.White;
-                }
-                else if (i == 10) { i = 0;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(i); Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                     Console.Write(i);
                 dem++;
             }
             
-
-            Console.WriteLine("  ___  _  _  _  ___   ___  ___ __  ___ ");
-            Console.WriteLine(" | _ \\| || \\| |/ __| | _ \\/ _ \\  | \\| |/ __|");
-            Console.WriteLine(" | __/| || ,  | (_-┬ | __/ (_) | ,  | (_-┬");
-            Console.WriteLine(" |_|  |_||_|\\_|\\___| |_|  \\___/   |_|\\_|\\___|");
             Whole();
             
         }
         #region Show
+        static void Name()
+        {
+            Console.SetCursorPosition(39, 2);
+            Console.Write(" ___  _  _  _  ___    ___  ___  _  _  ___");
+            Console.SetCursorPosition(39, 3);
+            Console.Write("| _ \\| || \\| |/ __|  | _ \\/ _ \\| \\| |/ __|");
+            Console.SetCursorPosition(39, 4);
+            Console.Write("| __/| || ,  | (_-┬  | __/ (_) | ,  | (_-┬");
+            Console.SetCursorPosition(39, 5);
+            Console.Write("|_|  |_||_|\\_|\\___|  |_|  \\___/|_|\\_|\\___|");
+        }
         static void Border()
         {
             //Dòng trên
