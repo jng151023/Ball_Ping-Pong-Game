@@ -10,7 +10,6 @@ namespace PingPong3
 {
     internal class Program
     {
-        static int Tiendeptraicute;
         static int height = 20;//Chiều cao border
         static int width = 80;// Chiều rộng border
         static int X=20;//Vị trí border theo cột
