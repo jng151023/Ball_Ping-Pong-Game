@@ -18,7 +18,6 @@ namespace PingPong3
         static int positionP2 = Y+7;//Vị trí của Player2
         static int lengthP = 6;
         static ConsoleKey consoleKey;
-        private static ConsoleKey consolekey;
 
         static void Main(string[] args)
         {
