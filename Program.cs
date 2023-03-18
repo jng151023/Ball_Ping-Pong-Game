@@ -37,6 +37,7 @@ namespace PingPong3
                 dem++;
             }
             
+            Console.CursorVisible= false;
             Whole();
             
         }
