@@ -160,8 +160,8 @@ namespace PingPong3
         {
             do
             {
-                consolekey = Console.ReadKey(true).Key;
-                switch (consolekey)
+                consoleKey = Console.ReadKey(true).Key;
+                switch (consoleKey)
                 {
                     case ConsoleKey.W: UpP1(); break;
                     case ConsoleKey.S: DownP1(); break;
