@@ -21,6 +21,8 @@ namespace PingPong3
         static int lengthP = 6;
         static ConsoleKey consoleKey;
         
+        static bool gameOn = true;
+        
         //Ball's variable
         static int ballX = x + (width / 2);
         static int ballY = y + (height / 2);
@@ -33,23 +35,24 @@ namespace PingPong3
 
         static void Main(string[] args)
         {
-            int dem = 0;
-            for(int i = 0; dem < 120; i++)
-            {
-                if (i == 10) i = 0;
-                if (i == 9)
-                {
-                    Console.ForegroundColor= ConsoleColor.Red;
-                    Console.Write(i);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                    Console.Write(i);
-                dem++;
-            }
             Console.CursorVisible= false;
 
-            Whole();
+            while (gameOn == true) //Điều kiện bắt đầu game
+            {
+                p1Score = p2Score = 0;
+                Whole();
+                Ball();
+                
+                //Điều kiện chiến thắng
+                if (p1Score == 5)
+                {
+                    gameOn = false;
+                }
+                else if (p2Score == 5)
+                {
+                    gameOn = false;
+                }    
+            }
             
         }
         #region Show
@@ -250,8 +253,6 @@ namespace PingPong3
             show.Start();
             Thread input = new Thread(Input);
             input.Start();
-            Thread ball = new Thread(Ball);
-            ball.Start();
         }
 
     }
