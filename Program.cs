@@ -26,7 +26,10 @@ namespace PingPong3
         static int ballY = y + (height / 2);
         static int dx = 1, dy = 1; //hướng đi
         static int speed = 100;
-
+        
+        //Tính điểm
+        static int p1Score = 0; 
+        static int p2Score = 0;
 
         static void Main(string[] args)
         {
@@ -193,19 +196,39 @@ namespace PingPong3
 
                 ballX += 1 * dx;
                 ballY += 1 * dy;
-
-                //đụng trái, phải quay đầu
-                if (ballX <= x + 1 | ballX >= x + width - 2)
-                    dx *= -1;
+                
                 //đụng trên, dưới quay đầu
-                else if (ballY == y + 1 || ballY >= y + height - 2)
+                if (ballY == y + 1 || ballY >= y + height - 2)
                     dy *= -1;
                 //đụng thanh chơi bên trái quay đầu
                 else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
                     dx *= -1;
                 //đụng thanh chơi bên phải quay đầu
-                else if (ballX == x + width - 2 && ballY >= yP2 && ballY <= yP2 + lengthP)
+                else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
                     dx *= -1;
+                
+                //bên trái thua
+                else if (ballX == x + 1)
+                {     
+                    p2Score++;
+                    //bắt đầu lại
+                    ballX = x + (width / 2);
+                    ballY = y + (height / 2);
+                    Console.SetCursorPosition(ballX, ballY);
+                    Console.WriteLine("O");
+                    dx = dy = 1;
+                }
+                //bên phải thua
+                else if (ballX == x + width - 2)
+                {
+                    p1Score++;
+                    //bắt đầu lại
+                    ballX = x + (width / 2);
+                    ballY = y + (height / 2);
+                    Console.SetCursorPosition(ballX, ballY);
+                    Console.WriteLine("O");
+                    dx = dy = 1;
+                }
             }
         }
         
