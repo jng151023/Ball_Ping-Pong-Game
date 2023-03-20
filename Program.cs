@@ -202,10 +202,18 @@ namespace PingPong3
                     dy *= -1;
                 //đụng thanh chơi bên trái quay đầu
                 else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
+                {
                     dx *= -1;
+                    dy = new Random().Next(-1, 2);
+                    if (dy == 0) dy = 1;
+                }
                 //đụng thanh chơi bên phải quay đầu
                 else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
+                {
                     dx *= -1;
+                    dy = new Random().Next(-1, 2);
+                    if (dy == 0) dy = 1;
+                }
                 
                 //bên trái thua
                 else if (ballX == x + 1)
@@ -216,7 +224,9 @@ namespace PingPong3
                     ballY = y + (height / 2);
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine("O");
-                    dx = dy = 1;
+                    dx = 1;
+                    dy = new Random().Next(-1, 2);
+                    if (dy == 0) dy = 1;
                 }
                 //bên phải thua
                 else if (ballX == x + width - 2)
@@ -227,7 +237,9 @@ namespace PingPong3
                     ballY = y + (height / 2);
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine("O");
-                    dx = dy = 1;
+                    dx = 1;
+                    dy = new Random().Next(-1, 2);
+                    if (dy == 0) dy = 1;
                 }
             }
         }
