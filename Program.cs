@@ -20,6 +20,13 @@ namespace PingPong3
         static int yP2 = y +7;//Vị trí của Player2 theo dòng
         static int lengthP = 6;
         static ConsoleKey consoleKey;
+        
+        //Ball's variable
+        static int ballX = x + (width / 2);
+        static int ballY = y + (height / 2);
+        static int dx = 1, dy = 1; //hướng đi
+        static int speed = 100;
+
 
         static void Main(string[] args)
         {
@@ -171,13 +178,45 @@ namespace PingPong3
             }
             while (true);
         }
+        
+        //Trái banh
+        static void Ball()
+        {
+            while (true)
+            {
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine("O");
+                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine(" ");
+
+                ballX += 1 * dx;
+                ballY += 1 * dy;
+
+                //đụng trái, phải quay đầu
+                if (ballX <= x + 1 | ballX >= x + width - 2)
+                    dx *= -1;
+                //đụng trên, dưới quay đầu
+                else if (ballY == y + 1 || ballY >= y + height - 2)
+                    dy *= -1;
+                //đụng thanh chơi bên trái quay đầu
+                else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
+                    dx *= -1;
+                //đụng thanh chơi bên phải quay đầu
+                else if (ballX == x + width - 2 && ballY >= yP2 && ballY <= yP2 + lengthP)
+                    dx *= -1;
+            }
+        }
+        
         static void Whole()
         {
             Thread show = new Thread(Show);
             show.Start();
             Thread input = new Thread(Input);
             input.Start();
-            
+            Thread ball = new Thread(Ball);
+            ball.Start();
         }
 
     }
