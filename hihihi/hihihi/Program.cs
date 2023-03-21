@@ -190,13 +190,6 @@ namespace PingPong3
         {
             while (true)
             {
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine("O");
-                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
-
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine(" ");
-
                 ballX += 1 * dx;
                 ballY += 1 * dy;
 
@@ -244,6 +237,14 @@ namespace PingPong3
                     dy = new Random().Next(-1, 2);
                     if (dy == 0) dy = 1;
                 }
+                
+                
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine("O");
+                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine(" ");
             }
         }
 
