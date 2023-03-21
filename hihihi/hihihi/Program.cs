@@ -189,7 +189,14 @@ namespace PingPong3
         static void Ball()
         {
             while (true)
-            {
+            {   
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine("O");
+                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+
+                Console.SetCursorPosition(ballX, ballY);
+                Console.WriteLine(" ");
+                
                 ballX += 1 * dx;
                 ballY += 1 * dy;
 
@@ -238,13 +245,6 @@ namespace PingPong3
                     if (dy == 0) dy = 1;
                 }
                 
-                
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine("O");
-                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
-
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine(" ");
             }
         }
 
