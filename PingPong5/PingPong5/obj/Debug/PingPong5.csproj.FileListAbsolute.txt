@@ -1,0 +1,8 @@
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.exe.config
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.exe
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.pdb
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.AssemblyReference.cache
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.SuggestedBindingRedirects.cache
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.CoreCompileInputs.cache
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.exe
+D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.pdb
