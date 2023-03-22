@@ -698,6 +698,8 @@ namespace PingPong5
                         dy = new Random().Next(-1, 2);
                         if (dy == 0) dy = 1;
                     }
+                Console.SetCursorPosition(50,27);
+                Console.Write($" Play1:{p1Score}: Play2: {p2Score}");
                 }
             }
             while(true);
