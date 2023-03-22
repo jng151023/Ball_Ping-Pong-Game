@@ -15,33 +15,19 @@ namespace Music
         static int[] SO = new int[] { 196, 392, 784, 1568 };
         static int[] LA = new int[] { 220, 440, 880, 1760 };
         static int[] TI = new int[] { 247, 494, 988, 1976 };
+        
+        static int oct1 = 0;
+        static int oct2 = 1;
+        static int oct3 = 2;
+        static int oct4 = 3;
 
         static void Main(string[] args)
-        {
-            
-            int oct1 = 0;
-            int oct2 = 1;
-            int oct3 = 2;
-            int oct4 = 3;
-
-            //Console.Beep(DO[oct3], 500);
-            //Console.Beep(RE[oct3], 500);
-            //Console.Beep(MI[oct3], 500);
-            //Console.Beep(FA[oct3], 500);
-            //Console.Beep(SO[oct3], 500);
-            //Console.Beep(LA[oct3], 500);
-            //Console.Beep(TI[oct3], 500);
-            //Console.Beep(DO[oct4], 500);
+        {            
             sweetChild();
         }
 
         static void sweetChild()
         {
-            int oct1 = 0;
-            int oct2 = 1;
-            int oct3 = 2;
-            int oct4 = 3;
-
             for (int i = 0; i < 2; i++)
             {
                 Console.Beep(SO[oct2], 250);
@@ -86,6 +72,16 @@ namespace Music
             Console.Beep(RE[oct3], 250);
             Console.Beep(TI[oct3], 250);
             Console.Beep(RE[oct3], 250);
+        }
+        static void PlayMusic()
+        {            
+            while (idxMusic % 2 == 0)
+            {
+                Console.Write("Press any keys to turn on or off music");
+                consoleKey = Console.ReadKey().Key;
+                if (idxMusic % 2 == 0) SweetChild();
+                else break;
+            }    
         }
     }
 }
