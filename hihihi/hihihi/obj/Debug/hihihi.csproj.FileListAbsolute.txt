@@ -1,7 +1,0 @@
-D:\C#\hihihi\hihihi\bin\Debug\hihihi.exe.config
-D:\C#\hihihi\hihihi\bin\Debug\hihihi.exe
-D:\C#\hihihi\hihihi\bin\Debug\hihihi.pdb
-D:\C#\hihihi\hihihi\obj\Debug\hihihi.csproj.AssemblyReference.cache
-D:\C#\hihihi\hihihi\obj\Debug\hihihi.csproj.CoreCompileInputs.cache
-D:\C#\hihihi\hihihi\obj\Debug\hihihi.exe
-D:\C#\hihihi\hihihi\obj\Debug\hihihi.pdb
