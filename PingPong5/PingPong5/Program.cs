@@ -692,6 +692,8 @@ namespace PingPong5
                         dx = 1;
                         dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
+                        Console.SetCursorPosition(x + width / 2 - 8, y + 2 + height);
+                        Console.WriteLine($"Player  :Player {p2Score}");
                     }
                     //bên phải thua
                     else if (ballX == x + width - 2)
@@ -705,6 +707,8 @@ namespace PingPong5
                         dx = 1;
                         dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
+                        Console.SetCursorPosition(x + width / 2 - 8, y + 2 + height);
+                        Console.WriteLine($"Player {p1Score}:Player  ");
                     }
 
 
