@@ -96,11 +96,8 @@ namespace PingPong5
                 else
                     Console.WriteLine(i);
                 dem2++;
-            }
-            
+            }         
             Whole();
-
-
         }
         #region Menu
         static void MainMenu()
@@ -467,6 +464,21 @@ namespace PingPong5
             Console.Write("└");
             Console.SetCursorPosition(x + width - 1, y + height - 1);
             Console.Write("┘");
+            
+            for (int i = 1; i < 2; i++) 
+            {
+                swith (i)
+                    case 1:
+                {
+                int location = 0;
+                PrintScore(0, location);
+                } break;
+                    case 2:
+                {
+                int location = 75;
+                PrintScore(0, location);
+                } break;
+            }
         }
         #region Music2
         static void SweetChild()
@@ -738,8 +750,9 @@ namespace PingPong5
                     //bên trái thua
                     else if (ballX == x + 1)
                     {
-                        p2Score++;
-                        //bắt đầu lại
+                    p2Score++;
+                    int location = 75;
+                    PrintScore(p2Score, location);
                         ballX = x + (width / 2);
                         ballY = y + (height / 2);
                         Console.SetCursorPosition(ballX, ballY);
@@ -751,8 +764,9 @@ namespace PingPong5
                     //bên phải thua
                     else if (ballX == x + width - 2)
                     {
-                        p1Score++;
-                        //bắt đầu lại
+                    p1Score++;
+                    int location = 0;
+                    PrintScore(p1Score, location);
                         ballX = x + (width / 2);
                         ballY = y + (height / 2);
                         Console.SetCursorPosition(ballX, ballY);
@@ -764,6 +778,60 @@ namespace PingPong5
                 }
             }
             while(true);
+        }
+        static void PrintScore(int diem, int location)
+        {
+            switch (diem)
+            {
+                case 0:
+                    {
+                        Console.SetCursorPosition(x+location, y-4);
+                        Console.WriteLine("   __  ");
+                        Console.SetCursorPosition(x+location, y-3);
+                        Console.WriteLine("  /  \\ ");
+                        Console.SetCursorPosition(x+location, y-2);
+                        Console.WriteLine(" | () |");
+                        Console.SetCursorPosition(x+location, y-1);
+                        Console.WriteLine("  \\__/ ");
+                    }
+                    break;
+                case 1:
+                    {
+                        Console.SetCursorPosition(x+location, y-4);
+                        Console.WriteLine("  _ ");
+                        Console.SetCursorPosition(x+location, y-3);
+                        Console.WriteLine(" / |");
+                        Console.SetCursorPosition(x+location, y-2);
+                        Console.WriteLine(" | |");
+                        Console.SetCursorPosition(x+location, y-1);
+                        Console.WriteLine(" |_|");
+                    }
+                    break;
+                case 2:
+                    {
+                        Console.SetCursorPosition(x+location, y-4);
+                        Console.WriteLine("  ___ ");
+                        Console.SetCursorPosition(x+location, y-3);
+                        Console.WriteLine(" |_  )");
+                        Console.SetCursorPosition(x+location, y-2);
+                        Console.WriteLine("  / / ");
+                        Console.SetCursorPosition(x+location, y-1);
+                        Console.WriteLine(" /___|");
+                    }
+                    break;
+                case 3:
+                    {
+                        Console.SetCursorPosition(location, 0);
+                        Console.WriteLine("  ____");
+                        Console.SetCursorPosition(location, 1);
+                        Console.WriteLine(" |__ /");
+                        Console.SetCursorPosition(location, 2);
+                        Console.WriteLine("  |_ \\");
+                        Console.SetCursorPosition(location, 3);
+                        Console.WriteLine(" |___/");
+                    }
+                    break;
+            }
         }
         static void Pause()
         {
