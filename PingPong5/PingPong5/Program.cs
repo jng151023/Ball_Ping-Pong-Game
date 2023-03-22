@@ -445,7 +445,6 @@ namespace PingPong5
             ClearScreen();
             Player1();
             Player2();
-            //Ball();
         }
         #region Move
         static void UpP1()
@@ -491,12 +490,29 @@ namespace PingPong5
             yP1 = y + 7;
             yP2 = y + 7;
         }
+        
+        static void Move()
+        {
+            consoleKey = Console.ReadKey(true).Key;
+            switch (consoleKey)
+            {
+                case ConsoleKey.W: UpP1(); break;
+                case ConsoleKey.S: DownP1(); break;
+                case ConsoleKey.UpArrow: UpP2(); break;
+                case ConsoleKey.DownArrow: DownP2(); break;
+                case ConsoleKey.Escape: { gameOn = false; ShowMenu(); break; }
+            }
+        }
+        
         static void BallMove()
         {
             while (true)
             {
                 Ball();
                 Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+                
+                Thread thread1 = new Thread(Move);
+                thread1.Start();
 
                 Console.SetCursorPosition(ballX, ballY);
                 Console.WriteLine(" ");
@@ -638,17 +654,16 @@ namespace PingPong5
                 //Khi vào game
                 while (gameOn == true)
                 {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.W: UpP1(); break;
-                        case ConsoleKey.S: DownP1(); break;
-                        case ConsoleKey.UpArrow: UpP2(); break;
-                        case ConsoleKey.DownArrow: DownP2(); break;
-                        case ConsoleKey.Escape: { gameOn = false; ShowMenu(); break; }
-                    }
-                    
                     BallMove();
+                    
+                    if (p1Score == 5)
+                    {
+                        gameOn = false;
+                    }
+                    else if (p2Score == 5)
+                    {
+                        gameOn = false;
+                    }
                 }
             }
             while (true);
