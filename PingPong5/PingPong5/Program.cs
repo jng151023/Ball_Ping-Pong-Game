@@ -445,7 +445,7 @@ namespace PingPong5
             ClearScreen();
             Player1();
             Player2();
-            Ball();
+            //Ball();
         }
         #region Move
         static void UpP1()
@@ -495,8 +495,7 @@ namespace PingPong5
         {
             while (true)
             {
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine(" ");
+                Ball();
                 Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
 
                 Console.SetCursorPosition(ballX, ballY);
@@ -648,6 +647,8 @@ namespace PingPong5
                         case ConsoleKey.DownArrow: DownP2(); break;
                         case ConsoleKey.Escape: { gameOn = false; ShowMenu(); break; }
                     }
+                    
+                    BallMove();
                 }
             }
             while (true);
