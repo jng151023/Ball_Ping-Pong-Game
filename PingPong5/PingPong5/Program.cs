@@ -50,6 +50,7 @@ namespace PingPong5
         static bool costumeBall = false;//Chọn màu cho Ball
 
         static bool gameOn = false;//Biến bắt đầu trò chơi
+        static bool pauseMenuOn = false;//Biến để bật menu pause game
 
         static ConsoleKey consoleKey;//Biến để nhập từ bàn phím
 
@@ -57,7 +58,35 @@ namespace PingPong5
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
+            int dem = 0;
+            for (int i = 0; dem < 120; i++)
+            {
+                if (i == 10)
+                { i = 0;}
+                if (i == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; Console.Write(i); Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                    Console.Write(i);
+                dem++;
+            }
+            int dem2 = 0;
+            for (int i = 1; dem2 < 30; i++)
+            {
+                if (i == 10)
+                { i = 0; }
+                if (i == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine(i); Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                    Console.WriteLine(i);
+                dem2++;
+            }
             Whole();
+
+
         }
         #region Menu
         static void MainMenu()
@@ -362,28 +391,33 @@ namespace PingPong5
             for (int i = 0; i < lengthP; i++)
             {
                 Console.SetCursorPosition(x + width - 2, yP2 + i);
-                Console.WriteLine(" ");
+                Console.WriteLine("0");
             }
             Console.BackgroundColor = ConsoleColor.Black;
         }
         static void Ball()
         {
-            IdxColor(idxColorBall);
+            
             Console.SetCursorPosition(ballX, ballY);
-            Console.WriteLine(" ");
-            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine("0");
+            ;
         }
         #endregion
         static void Name()
         {
             Console.SetCursorPosition(39, 2);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(" ___  _  _  _  ___    ___  ___  _  _  ___");
             Console.SetCursorPosition(39, 3);
+            
             Console.Write("| _ \\| || \\| |/ __|  | _ \\/ _ \\| \\| |/ __|");
             Console.SetCursorPosition(39, 4);
+            
             Console.Write("| __/| || ,  | (_-┬  | __/ (_) | ,  | (_-┬");
+            
             Console.SetCursorPosition(39, 5);
             Console.Write("|_|  |_||_|\\_|\\___|  |_|  \\___/|_|\\_|\\___|");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         static void Border()
         {
@@ -491,81 +525,6 @@ namespace PingPong5
             yP2 = y + 7;
         }
         
-        static void Move()
-        {
-            consoleKey = Console.ReadKey(true).Key;
-            switch (consoleKey)
-            {
-                case ConsoleKey.W: UpP1(); break;
-                case ConsoleKey.S: DownP1(); break;
-                case ConsoleKey.UpArrow: UpP2(); break;
-                case ConsoleKey.DownArrow: DownP2(); break;
-                case ConsoleKey.Escape: { gameOn = false; ShowMenu(); break; }
-            }
-        }
-        
-        static void BallMove()
-        {
-            while (true)
-            {
-                Ball();
-                Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
-                
-                Thread thread1 = new Thread(Move);
-                thread1.Start();
-
-                Console.SetCursorPosition(ballX, ballY);
-                Console.WriteLine(" ");
-
-                ballX += 1 * dx;
-                ballY += 1 * dy;
-
-                //đụng trên, dưới quay đầu
-                if (ballY == y + 1 || ballY >= y + height - 2)
-                    dy *= -1;
-                //đụng thanh chơi bên trái quay đầu
-                else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
-                {
-                    dx *= -1;
-                    dy = new Random().Next(-1, 2);
-                    if (dy == 0) dy = 1;
-                }
-                //đụng thanh chơi bên phải quay đầu
-                else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
-                {
-                    dx *= -1;
-                    dy = new Random().Next(-1, 2);
-                    if (dy == 0) dy = 1;
-                }
-
-                //bên trái thua
-                else if (ballX == x + 1)
-                {
-                    p2Score++;
-                    //bắt đầu lại
-                    ballX = x + (width / 2);
-                    ballY = y + (height / 2);
-                    Console.SetCursorPosition(ballX, ballY);
-                    Console.WriteLine("O");
-                    dx = 1;
-                    dy = new Random().Next(-1, 2);
-                    if (dy == 0) dy = 1;
-                }
-                //bên phải thua
-                else if (ballX == x + width - 2)
-                {
-                    p1Score++;
-                    //bắt đầu lại
-                    ballX = x + (width / 2);
-                    ballY = y + (height / 2);
-                    Console.SetCursorPosition(ballX, ballY);
-                    Console.WriteLine("O");
-                    dx = 1;
-                    dy = new Random().Next(-1, 2);
-                    if (dy == 0) dy = 1;
-                }
-            }
-        }
         #endregion
         static void Input()
         {
@@ -577,16 +536,15 @@ namespace PingPong5
                     consoleKey = Console.ReadKey(true).Key;
                     switch (consoleKey)
                     {
-                        case ConsoleKey.A: ChooseEasy(); break;
-                        case ConsoleKey.B: ChooseNormal(); break;
-                        case ConsoleKey.C: ChooseHard(); break;
-                        case ConsoleKey.D: { costumesMenu = true; ClearScreen(); CostumesMenu(); break; }
-                        case ConsoleKey.O: { ++idxMusic; ChooseMusic(); break; }
-                        case ConsoleKey.Escape: Exit(); break;
-                        case ConsoleKey.Enter: { gameOn = true; ResetYPlayer(); ClearScreen(); ShowInGame(); break; }
+                        case ConsoleKey.A: ChooseEasy(); break;//Chọn mức dễ
+                        case ConsoleKey.B: ChooseNormal(); break;//Chọn mức trung bình
+                        case ConsoleKey.C: ChooseHard(); break;//Chọn mức khó
+                        case ConsoleKey.D: { costumesMenu = true; ClearScreen(); CostumesMenu(); break; }//Mở Costumes Menu
+                        case ConsoleKey.O: { ++idxMusic; ChooseMusic(); break; }//Bật tắt Music
+                        case ConsoleKey.Escape: Exit(); break;//Mở màn hình Exit
+                        case ConsoleKey.Enter: { ResetYPlayer(); ClearScreen(); ShowInGame(); gameOn = true; break; }//Vào game
                     }
                 }
-
                 //Khi ở Costumes Menu
                 #region CostumesMenu
                 //Mở menu để chỉnh màu cho Player1
@@ -595,9 +553,10 @@ namespace PingPong5
                     consoleKey = Console.ReadKey(true).Key;
                     switch (consoleKey)
                     {
-                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }
-                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }
+                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }//Mở màn hình P2
+                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }//Mở màn hình Ball
                         case ConsoleKey.Escape: { costumesMenu = false; ClearScreen(); MainMenu(); break; }
+                        //Chọn màu cho Player1
                         case ConsoleKey.D1: { idxColorP1 = 1; SamplePlayer1(); break; }
                         case ConsoleKey.D2: { idxColorP1 = 2; SamplePlayer1(); break; }
                         case ConsoleKey.D3: { idxColorP1 = 3; SamplePlayer1(); break; }
@@ -615,8 +574,8 @@ namespace PingPong5
                     consoleKey = Console.ReadKey(true).Key;
                     switch (consoleKey)
                     {
-                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }
-                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }
+                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }//Mở màn hình P1
+                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }// Mở màn hình Ball
                         case ConsoleKey.Escape: { costumesMenu = false; ClearScreen(); MainMenu(); break; }
                         case ConsoleKey.D1: { idxColorP2 = 1; SamplePlayer2(); break; }
                         case ConsoleKey.D2: { idxColorP2 = 2; SamplePlayer2(); break; }
@@ -654,59 +613,158 @@ namespace PingPong5
                 //Khi vào game
                 while (gameOn == true)
                 {
-                    BallMove();
-                    
-                    if (p1Score == 5)
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
                     {
-                        gameOn = false;
+                        case ConsoleKey.W: UpP1(); break;
+                        case ConsoleKey.S: DownP1(); break;
+                        case ConsoleKey.UpArrow: UpP2(); break;
+                        case ConsoleKey.DownArrow: DownP2(); break;
+                        case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
                     }
-                    else if (p2Score == 5)
+                }
+                //Pause game
+                while (pauseMenuOn == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
                     {
-                        gameOn = false;
+                        case ConsoleKey.A: { ClearScreen(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false;  break; }
+                        case ConsoleKey.B: { ClearScreen();ResetYPlayer(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false; break; }
+                        //case ConsoleKey.B: DownP1(); break; Music
+                        case ConsoleKey.D: {ShowMenu(); pauseMenuOn = false; break; }
                     }
                 }
             }
             while (true);
         }
-        
+        static void BallMove()
+        {
+            do
+            {
+                while (gameOn == true)
+                {
+                    Console.SetCursorPosition(ballX, ballY);
+                    Console.WriteLine("O");
+                    Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+
+                    Console.SetCursorPosition(ballX, ballY);
+                    Console.WriteLine(" ");
+
+                    ballX += 1 * dx;
+                    ballY += 1 * dy;
+
+                    //đụng trên, dưới quay đầu
+                    if (ballY == y + 1 || ballY >= y + height - 2)
+                        dy *= -1;
+                    //đụng thanh chơi bên trái quay đầu
+                    else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
+                    {
+                        dx *= -1;
+                        dy = new Random().Next(-1, 2);
+                        if (dy == 0) dy = 1;
+                    }
+                    //đụng thanh chơi bên phải quay đầu
+                    else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
+                    {
+                        dx *= -1;
+                        dy = new Random().Next(-1, 2);
+                        if (dy == 0) dy = 1;
+                    }
+
+                    //bên trái thua
+                    else if (ballX == x + 1)
+                    {
+                        p2Score++;
+                        //bắt đầu lại
+                        ballX = x + (width / 2);
+                        ballY = y + (height / 2);
+                        Console.SetCursorPosition(ballX, ballY);
+                        Console.WriteLine("O");
+                        dx = 1;
+                        dy = new Random().Next(-1, 2);
+                        if (dy == 0) dy = 1;
+                    }
+                    //bên phải thua
+                    else if (ballX == x + width - 2)
+                    {
+                        p1Score++;
+                        //bắt đầu lại
+                        ballX = x + (width / 2);
+                        ballY = y + (height / 2);
+                        Console.SetCursorPosition(ballX, ballY);
+                        Console.WriteLine("O");
+                        dx = 1;
+                        dy = new Random().Next(-1, 2);
+                        if (dy == 0) dy = 1;
+                    }
+                }
+            }
+            while(true);
+        }
         static void Pause()
         {
-            Console.SetCursorPosition(x + width / 3, y + height / 3);
+            Console.SetCursorPosition(x + width / 3+1, y + height / 3+1);
             Console.Write("Continue - Press A");
-            Console.SetCursorPosition(x + width / 3, y + height / 3 + 1);
-            Console.Write("Music - Press B");
-            Console.SetCursorPosition(x + width / 3, y + height / 3 + 2);
-            Console.Write("Back to MainMenu - Press C");
+            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 2);
+            Console.Write("Restart - Press B");
+            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 3);
+            Console.Write("Music - Press C");
+            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 4);
+            Console.Write("Back to MainMenu - Press D");
         }
         static void Exit()
         {
             ClearScreen();
-            Console.SetCursorPosition(x + width / 3, y + height / 3);
+            Console.SetCursorPosition(x + width / 3 - 3, y + height / 3+ 1 );
             Console.Write("Do you want to quit?\n");
-            Console.SetCursorPosition(x + width / 3, y + height / 3 + 1);
+            Console.SetCursorPosition(x + width / 3 - 3, y + height / 3 + 2);
             Console.Write("If yes type 'y', else type 'n': ");
+
+            for (int i = 0; i < width / 2; i++)
+            {
+
+                Console.SetCursorPosition(x + width / 3 - 3 +i, y + height / 3 );
+                Console.Write("─");
+            }
+            
+            
             char n;
             do
             {
-                Console.SetCursorPosition(x + width / 3 + 33, y + height / 3 + 1);
+                Console.SetCursorPosition(x + width / 3 + 33-3, y + height / 3 + 2);
+                Console.ForegroundColor= ConsoleColor.Green;
                 n = char.Parse(Console.ReadLine());
+                Console.ForegroundColor = ConsoleColor.White;
             }
             while (n != 'n' && n != 'y');
 
             if (n == 'y')
             {
-                Thread.Sleep(1000);
+                ClearScreen();
+                Console.SetCursorPosition(x + width / 3 , y + height / 3 + 1);
+                Console.ForegroundColor=ConsoleColor.Yellow;
+                Console.WriteLine("Thank for playing ");
+                Console.SetCursorPosition(x + width / 3 + 18, y + height / 3 + 1);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("<3");
+                Thread.Sleep(1500);
+                
                 Environment.Exit(0);
+                
             }
             else if (n == 'n')
                 ShowMenu();
         }
+        
         static void Whole()
         {
             Thread show = new Thread(ShowMenu);
             show.Start();
             Thread inputMainMenu = new Thread(Input);
             inputMainMenu.Start();
+            Thread ballMove = new Thread(BallMove);
+            ballMove.Start();       
         }
     }
 }

@@ -6,3 +6,11 @@ D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.Suggested
 D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.CoreCompileInputs.cache
 D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.exe
 D:\Studing\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.pdb
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.exe.config
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.exe
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\bin\Debug\PingPong5.pdb
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.AssemblyReference.cache
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.SuggestedBindingRedirects.cache
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.csproj.CoreCompileInputs.cache
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.exe
+D:\Học\Năm 4\C#\FinalTerm\PingPong5\PingPong5\obj\Debug\PingPong5.pdb
