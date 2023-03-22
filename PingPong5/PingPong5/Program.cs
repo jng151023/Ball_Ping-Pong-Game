@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +10,6 @@ namespace PingPong5
     internal class Program
     {
         #region GlobalVariables
-
         //Border
         static int x = 20;//Vị trí border theo cột
         static int y = 6;//Vị trí border theo dòng
@@ -27,6 +26,7 @@ namespace PingPong5
         static int ballY = y + (height / 2);//Vị trí bắt đầu của Ball theo dòng
         static int dx = 1, dy = 1; //Biến điều chỉnh hướng đi của Ball
         static int speed = 100;//Tốc độc của Ball
+
         //Tính điểm
         static int p1Score = 0;
         static int p2Score = 0;
@@ -37,6 +37,19 @@ namespace PingPong5
 
         //Music
         static int idxMusic = 0;//Biến để bật tắt music
+
+        static int[] DO = new int[] { 131, 262, 523, 1046 };
+        static int[] RE = new int[] { 147, 294, 587, 1174 };
+        static int[] MI = new int[] { 165, 330, 659, 1318 };
+        static int[] FA = new int[] { 175, 349, 698, 1396 };
+        static int[] SO = new int[] { 196, 392, 784, 1568 };
+        static int[] LA = new int[] { 220, 440, 880, 1760 };
+        static int[] TI = new int[] { 247, 494, 988, 1976 };
+
+        static int oct1 = 0;
+        static int oct2 = 1;
+        static int oct3 = 2;
+        static int oct4 = 3;
 
         //Color
         static int idxColorP1 = 1;//Màu của Player1
@@ -84,6 +97,7 @@ namespace PingPong5
                     Console.WriteLine(i);
                 dem2++;
             }
+            
             Whole();
 
 
@@ -400,6 +414,7 @@ namespace PingPong5
             
             Console.SetCursorPosition(ballX, ballY);
             Console.WriteLine("0");
+            ;
         }
         #endregion
         static void Name()
@@ -417,7 +432,7 @@ namespace PingPong5
             Console.SetCursorPosition(39, 5);
             Console.Write("|_|  |_||_|\\_|\\___|  |_|  \\___/|_|\\_|\\___|");
             Console.ForegroundColor = ConsoleColor.White;
-        }
+        } 
         static void Border()
         {
             //Dòng trên
@@ -453,6 +468,55 @@ namespace PingPong5
             Console.SetCursorPosition(x + width - 1, y + height - 1);
             Console.Write("┘");
         }
+        #region Music2
+        static void SweetChild()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Console.Beep(SO[oct2], 250);
+                Console.Beep(SO[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(DO[oct3], 250);
+                Console.Beep(DO[oct4], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(TI[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                Console.Beep(LA[oct2], 250);
+                Console.Beep(SO[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(DO[oct3], 250);
+                Console.Beep(DO[oct4], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(TI[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                Console.Beep(DO[oct3], 250);
+                Console.Beep(SO[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(DO[oct3], 250);
+                Console.Beep(DO[oct4], 250);
+                Console.Beep(RE[oct3], 250);
+                Console.Beep(TI[oct3], 250);
+                Console.Beep(RE[oct3], 250);
+            }
+
+            Console.Beep(SO[oct2], 250);
+            Console.Beep(SO[oct3], 250);
+            Console.Beep(RE[oct3], 250);
+            Console.Beep(DO[oct3], 250);
+            Console.Beep(DO[oct4], 250);
+            Console.Beep(RE[oct3], 250);
+            Console.Beep(TI[oct3], 250);
+            Console.Beep(RE[oct3], 250);
+        }
+        #endregion
         static void ClearScreen()
         {
             for (int i = 0; i < height - 2; i++)
@@ -612,7 +676,15 @@ namespace PingPong5
                 //Khi vào game
                 while (gameOn == true)
                 {
-                    BallMove();
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.W: UpP1(); break;
+                        case ConsoleKey.S: DownP1(); break;
+                        case ConsoleKey.UpArrow: UpP2(); break;
+                        case ConsoleKey.DownArrow: DownP2(); break;
+                        case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
+                    }
                 }
                 //Pause game
                 while (pauseMenuOn == true)
@@ -629,35 +701,18 @@ namespace PingPong5
             }
             while (true);
         }
-        static void Move()
-        {
-            consoleKey = Console.ReadKey(true).Key;
-            switch (consoleKey)
-            {
-                case ConsoleKey.W: UpP1(); break;
-                case ConsoleKey.S: DownP1(); break;
-                case ConsoleKey.UpArrow: UpP2(); break;
-                case ConsoleKey.DownArrow: DownP2(); break;
-                case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
-            }
-        }
         static void BallMove()
         {
             do
             {
-                if (ballY >= y + 1 && ballY <= y + height - 2 && ballX >= x + 1 && ballX <= x + width - 2)
+                while (gameOn == true)
                 {
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine("O");
-
                     Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
 
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine(" ");
-                }
-                
-                    Thread move = new Thread(Move);
-                    move.Start();
 
                     ballX += 1 * dx;
                     ballY += 1 * dy;
@@ -669,14 +724,14 @@ namespace PingPong5
                     else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 3);
+                        dy = new Random().Next(-1, 2);
                         if (dy == 0) dy = 1;
                     }
                     //đụng thanh chơi bên phải quay đầu
                     else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 3);
+                        dy = new Random().Next(-1, 2);
                         if (dy == 0) dy = 1;
                     }
 
@@ -690,10 +745,8 @@ namespace PingPong5
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
                         dx = 1;
-                        dy = new Random().Next(-1, 3);
+                        dy = new Random().Next(-1, 2);
                         if (dy == 0) dy = 1;
-                        Console.SetCursorPosition(x + width / 2 - 8, y + 2 + height);
-                        Console.WriteLine($"Player  :Player {p2Score}");
                     }
                     //bên phải thua
                     else if (ballX == x + width - 2)
@@ -705,17 +758,12 @@ namespace PingPong5
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
                         dx = 1;
-                        dy = new Random().Next(-1, 3);
+                        dy = new Random().Next(-1, 2);
                         if (dy == 0) dy = 1;
-                        Console.SetCursorPosition(x + width / 2 - 8, y + 2 + height);
-                        Console.WriteLine($"Player {p1Score}:Player  ");
                     }
-
-
-                    Console.SetCursorPosition(50, 27);
-                    Console.Write($" Play1:{p1Score}: Play2: {p2Score}");
+                }
             }
-            while (true);
+            while(true);
         }
         static void Pause()
         {
@@ -771,13 +819,16 @@ namespace PingPong5
             else if (n == 'n')
                 ShowMenu();
         }
-        
         static void Whole()
         {
             Thread show = new Thread(ShowMenu);
             show.Start();
             Thread inputMainMenu = new Thread(Input);
             inputMainMenu.Start();
+            Thread ballMove = new Thread(BallMove);
+            ballMove.Start();
+            Thread sweetChild = new Thread(SweetChild);
+            sweetChild.Start();
         }
     }
 }
