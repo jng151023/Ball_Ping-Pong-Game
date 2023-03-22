@@ -400,7 +400,6 @@ namespace PingPong5
             
             Console.SetCursorPosition(ballX, ballY);
             Console.WriteLine("0");
-            ;
         }
         #endregion
         static void Name()
