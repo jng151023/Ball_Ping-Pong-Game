@@ -613,15 +613,7 @@ namespace PingPong5
                 //Khi vào game
                 while (gameOn == true)
                 {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.W: UpP1(); break;
-                        case ConsoleKey.S: DownP1(); break;
-                        case ConsoleKey.UpArrow: UpP2(); break;
-                        case ConsoleKey.DownArrow: DownP2(); break;
-                        case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
-                    }
+                    BallMove();
                 }
                 //Pause game
                 while (pauseMenuOn == true)
@@ -638,18 +630,35 @@ namespace PingPong5
             }
             while (true);
         }
+        static void Move()
+        {
+            consoleKey = Console.ReadKey(true).Key;
+            switch (consoleKey)
+            {
+                case ConsoleKey.W: UpP1(); break;
+                case ConsoleKey.S: DownP1(); break;
+                case ConsoleKey.UpArrow: UpP2(); break;
+                case ConsoleKey.DownArrow: DownP2(); break;
+                case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
+            }
+        }
         static void BallMove()
         {
             do
             {
-                while (gameOn == true)
+                if (ballY >= y + 1 && ballY <= y + height - 2 && ballX >= x + 1 && ballX <= x + width - 2)
                 {
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine("O");
+
                     Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
 
                     Console.SetCursorPosition(ballX, ballY);
                     Console.WriteLine(" ");
+                }
+                
+                    Thread move = new Thread(Move);
+                    move.Start();
 
                     ballX += 1 * dx;
                     ballY += 1 * dy;
@@ -661,14 +670,14 @@ namespace PingPong5
                     else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 2);
+                        dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
                     }
                     //đụng thanh chơi bên phải quay đầu
                     else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 2);
+                        dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
                     }
 
@@ -682,7 +691,7 @@ namespace PingPong5
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
                         dx = 1;
-                        dy = new Random().Next(-1, 2);
+                        dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
                     }
                     //bên phải thua
@@ -695,14 +704,15 @@ namespace PingPong5
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
                         dx = 1;
-                        dy = new Random().Next(-1, 2);
+                        dy = new Random().Next(-1, 3);
                         if (dy == 0) dy = 1;
                     }
-                Console.SetCursorPosition(50,27);
-                Console.Write($" Play1:{p1Score}: Play2: {p2Score}");
-                }
+
+
+                    Console.SetCursorPosition(50, 27);
+                    Console.Write($" Play1:{p1Score}: Play2: {p2Score}");
             }
-            while(true);
+            while (true);
         }
         static void Pause()
         {
@@ -765,8 +775,6 @@ namespace PingPong5
             show.Start();
             Thread inputMainMenu = new Thread(Input);
             inputMainMenu.Start();
-            Thread ballMove = new Thread(BallMove);
-            ballMove.Start();       
         }
     }
 }
