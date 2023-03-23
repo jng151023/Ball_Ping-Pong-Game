@@ -612,12 +612,15 @@ namespace PingPong5
             {
                 while (gameOn == true)
                 {
-                    Console.SetCursorPosition(ballX, ballY);
-                    Console.WriteLine("O");
-                    Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
+                    if (ballY >= y + 1 && ballY <= y + height - 2 && ballX >= x + 1 && ballX <= x + width - 2)
+                    {
+                        Console.SetCursorPosition(ballX, ballY);
+                        Console.WriteLine("O");
+                        Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
 
-                    Console.SetCursorPosition(ballX, ballY);
-                    Console.WriteLine(" ");
+                        Console.SetCursorPosition(ballX, ballY);
+                        Console.WriteLine(" ");
+                    }
 
                     ballX += 1 * dx;
                     ballY += 1 * dy;
