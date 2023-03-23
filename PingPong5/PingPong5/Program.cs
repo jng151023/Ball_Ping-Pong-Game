@@ -25,11 +25,11 @@ namespace PingPong5
         static int ballX = x + (width / 2);//Vị trí bắt đầu của Ball theo cột
         static int ballY = y + (height / 2);//Vị trí bắt đầu của Ball theo dòng
         static int dx = 1, dy = 1; //Biến điều chỉnh hướng đi của Ball
-        static int speed = 100;//Tốc độc của Ball
+        static int speed = 20;//Tốc độc của Ball
 
         //Tính điểm
-        static int p1Score = 0;
-        static int p2Score = 0;
+        static int p1Score = 0;//Biến tính điểm cho player1
+        static int p2Score = 0;//Biến tính điểm cho player2
 
         //Menu
         static int xMenu = x + 10;//Vị trí theo cột các thành phần trong menu
@@ -46,7 +46,6 @@ namespace PingPong5
         static int[] LA = new int[] { 220, 440, 880, 1760 };
         static int[] TI = new int[] { 247, 494, 988, 1976 };
 
-        static int oct1 = 0;
         static int oct2 = 1;
         static int oct3 = 2;
         static int oct4 = 3;
@@ -66,42 +65,197 @@ namespace PingPong5
         static bool pauseMenuOn = false;//Biến để bật menu pause game
 
         static ConsoleKey consoleKey;//Biến để nhập từ bàn phím
-
         #endregion
         static void Main(string[] args)
-        {
-            Console.CursorVisible = false;
-            int dem = 0;
-            for (int i = 0; dem < 120; i++)
-            {
-                if (i == 10)
-                { i = 0;}
-                if (i == 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.Write(i); Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                    Console.Write(i);
-                dem++;
-            }
-            int dem2 = 0;
-            for (int i = 1; dem2 < 30; i++)
-            {
-                if (i == 10)
-                { i = 0; }
-                if (i == 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine(i); Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                    Console.WriteLine(i);
-                dem2++;
-            }         
+        {   
+            Console.CursorVisible= false;
             Whole();
         }
+
+        //Tên và khung viền
+        #region Border
+        static void PingPong()
+        {
+            Console.SetCursorPosition(39, 2);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(" ___  _  _  _  ___    ___  ___  _  _  ___");
+            Console.SetCursorPosition(39, 3);
+
+            Console.Write("| _ \\| || \\| |/ __|  | _ \\/ _ \\| \\| |/ __|");
+            Console.SetCursorPosition(39, 4);
+
+            Console.Write("| __/| || ,  | (_-┬  | __/ (_) | ,  | (_-┬");
+
+            Console.SetCursorPosition(39, 5);
+            Console.Write("|_|  |_||_|\\_|\\___|  |_|  \\___/|_|\\_|\\___|");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        static void Border()
+        {
+            //Dòng trên
+            for (int i = 0; i < width - 2; i++)
+            {
+                Console.SetCursorPosition(x + 1 + i, y);
+                Console.Write("─");
+            }
+            //Dòng dưới
+            for (int i = 0; i < width - 2; i++)
+            {
+                Console.SetCursorPosition(x + 1 + i, y + height - 1);
+                Console.Write("─");
+            }
+            //Hàng trái
+            for (int i = 0; i < height - 2; i++)
+            {
+                Console.SetCursorPosition(x, y + 1 + i);
+                Console.Write("│");
+            }
+            //Hàng phải
+            for (int i = 0; i < height - 2; i++)
+            {
+                Console.SetCursorPosition(x + width - 1, y + 1 + i);
+                Console.Write("│");
+            }
+            Console.SetCursorPosition(x, y);
+            Console.Write("┌");
+            Console.SetCursorPosition(x + width - 1, y);
+            Console.Write("┐");
+            Console.SetCursorPosition(x, y + height - 1);
+            Console.Write("└");
+            Console.SetCursorPosition(x + width - 1, y + height - 1);
+            Console.Write("┘");
+
+
+        }
+        #endregion
+
+        //Nhạc nền
+        static void SweetChild()
+        {
+            do
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(SO[oct2], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(SO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct4], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(TI[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(LA[oct2], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(SO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct4], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(TI[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(SO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(DO[oct4], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(TI[oct3], 250);
+                    if (idxMusic % 2 == 0)
+                        Console.Beep(RE[oct3], 250);
+                }
+
+                if (idxMusic % 2 == 0)
+                    Console.Beep(SO[oct2], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(SO[oct3], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(RE[oct3], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(DO[oct3], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(DO[oct4], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(RE[oct3], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(TI[oct3], 250);
+                if (idxMusic % 2 == 0)
+                    Console.Beep(RE[oct3], 250);
+            }
+            while (true);
+        }
+
+        //Hàm xóa màn hình (phạm vi trong khung border)
+        static void ClearScreen()
+        {
+            for (int i = 0; i < height - 2; i++)
+            {
+
+                for (int j = 0; j < width - 2; j++)
+                {
+                    Console.SetCursorPosition(x + 1 + j, y + 1 + i);
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+
+                for (int j = 0; j < 6; j++)
+                {
+                    Console.SetCursorPosition(x + 1 + j, y - 4 + i);
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
+            for (int i = 0; i < 4; i++)
+            {
+
+                for (int j = 0; j < 6; j++)
+                {
+                    Console.SetCursorPosition(x + width - 7 + j, y - 4 + i);
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
+
+        }
+
+        //MainMenu, CostumeMenu
         #region Menu
         static void MainMenu()
         {
+            ClearScreen();
             Console.SetCursorPosition(x + width / 2 - 5, y + 2);
             Console.Write("MAIN MENU");
             Console.SetCursorPosition(x + width / 5, y + height - 2);
@@ -174,6 +328,7 @@ namespace PingPong5
         }
         static void CostumesMenu()
         {
+            ClearScreen();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.SetCursorPosition(x + width / 2 - 7, y + 2);
             Console.Write("COSTUMES MENU");
@@ -185,8 +340,7 @@ namespace PingPong5
             Console.SetCursorPosition(x + 2, y + height - 2);
             Console.Write("Press ECS to back to Main Menu");
         }
-        
-        #region Color
+          #region Color
         static void Color()
         {
             White();
@@ -281,7 +435,7 @@ namespace PingPong5
             Console.BackgroundColor = ConsoleColor.Black;
         }
         #endregion
-        #region Sample
+          #region Sample
         static void IdxColor(int a)
         {
             switch (a)
@@ -385,7 +539,9 @@ namespace PingPong5
         }
         #endregion
         #endregion
-        #region InGame 
+
+        //Player và hướng di chuyển
+        #region Player
         static void Player1()
         {
             IdxColor(idxColorP1);
@@ -402,160 +558,12 @@ namespace PingPong5
             for (int i = 0; i < lengthP; i++)
             {
                 Console.SetCursorPosition(x + width - 2, yP2 + i);
-                Console.WriteLine("0");
+                Console.WriteLine(" ");
             }
             Console.BackgroundColor = ConsoleColor.Black;
         }
-        static void Ball()
-        {
-            
-            Console.SetCursorPosition(ballX, ballY);
-            Console.WriteLine("0");
-            ;
-        }
-        #endregion
-        static void Name()
-        {
-            Console.SetCursorPosition(39, 2);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ___  _  _  _  ___    ___  ___  _  _  ___");
-            Console.SetCursorPosition(39, 3);
-            
-            Console.Write("| _ \\| || \\| |/ __|  | _ \\/ _ \\| \\| |/ __|");
-            Console.SetCursorPosition(39, 4);
-            
-            Console.Write("| __/| || ,  | (_-┬  | __/ (_) | ,  | (_-┬");
-            
-            Console.SetCursorPosition(39, 5);
-            Console.Write("|_|  |_||_|\\_|\\___|  |_|  \\___/|_|\\_|\\___|");
-            Console.ForegroundColor = ConsoleColor.White;
-        } 
-        static void Border()
-        {
-            //Dòng trên
-            for (int i = 0; i < width - 2; i++)
-            {
-                Console.SetCursorPosition(x + 1 + i, y);
-                Console.Write("─");
-            }
-            //Dòng dưới
-            for (int i = 0; i < width - 2; i++)
-            {
-                Console.SetCursorPosition(x + 1 + i, y + height - 1);
-                Console.Write("─");
-            }
-            //Hàng trái
-            for (int i = 0; i < height - 2; i++)
-            {
-                Console.SetCursorPosition(x, y + 1 + i);
-                Console.Write("│");
-            }
-            //Hàng phải
-            for (int i = 0; i < height - 2; i++)
-            {
-                Console.SetCursorPosition(x + width - 1, y + 1 + i);
-                Console.Write("│");
-            }
-            Console.SetCursorPosition(x, y);
-            Console.Write("┌");
-            Console.SetCursorPosition(x + width - 1, y);
-            Console.Write("┐");
-            Console.SetCursorPosition(x, y + height - 1);
-            Console.Write("└");
-            Console.SetCursorPosition(x + width - 1, y + height - 1);
-            Console.Write("┘");
-            
-            for (int i = 1; i < 2; i++) 
-            {
-                swith (i)
-                    case 1:
-                {
-                int location = 0;
-                PrintScore(0, location);
-                } break;
-                    case 2:
-                {
-                int location = 75;
-                PrintScore(0, location);
-                } break;
-            }
-        }
-        #region Music2
-        static void SweetChild()
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Console.Beep(SO[oct2], 250);
-                Console.Beep(SO[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(DO[oct3], 250);
-                Console.Beep(DO[oct4], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(TI[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-            }
 
-            for (int i = 0; i < 2; i++)
-            {
-                Console.Beep(LA[oct2], 250);
-                Console.Beep(SO[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(DO[oct3], 250);
-                Console.Beep(DO[oct4], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(TI[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-            }
-
-            for (int i = 0; i < 2; i++)
-            {
-                Console.Beep(DO[oct3], 250);
-                Console.Beep(SO[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(DO[oct3], 250);
-                Console.Beep(DO[oct4], 250);
-                Console.Beep(RE[oct3], 250);
-                Console.Beep(TI[oct3], 250);
-                Console.Beep(RE[oct3], 250);
-            }
-
-            Console.Beep(SO[oct2], 250);
-            Console.Beep(SO[oct3], 250);
-            Console.Beep(RE[oct3], 250);
-            Console.Beep(DO[oct3], 250);
-            Console.Beep(DO[oct4], 250);
-            Console.Beep(RE[oct3], 250);
-            Console.Beep(TI[oct3], 250);
-            Console.Beep(RE[oct3], 250);
-        }
-        #endregion
-        static void ClearScreen()
-        {
-            for (int i = 0; i < height - 2; i++)
-            {
-
-                for (int j = 0; j < width - 2; j++)
-                {
-                    Console.SetCursorPosition(x + 1 + j, y + 1 + i);
-                    Console.Write(' ');
-                }
-                Console.WriteLine();
-            }
-        }
-        static void ShowMenu()
-        {
-            ClearScreen();
-            Name();
-            Border();
-            MainMenu();
-        }
-        static void ShowInGame()
-        {
-            ClearScreen();
-            Player1();
-            Player2();
-        }
-        #region Move
+        //Chuyển động của Player
         static void UpP1()
         {
             yP1--;
@@ -594,125 +602,10 @@ namespace PingPong5
                 yP2--;
             Player2();
         }
-        static void ResetYPlayer()
-        {
-            yP1 = y + 7;
-            yP2 = y + 7;
-        }
-        
         #endregion
-        static void Input()
-        {
-            do
-            {
-                //Khi ở Main Menu
-                while (costumesMenu == false && gameOn == false)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.A: ChooseEasy(); break;//Chọn mức dễ
-                        case ConsoleKey.B: ChooseNormal(); break;//Chọn mức trung bình
-                        case ConsoleKey.C: ChooseHard(); break;//Chọn mức khó
-                        case ConsoleKey.D: { costumesMenu = true; ClearScreen(); CostumesMenu(); break; }//Mở Costumes Menu
-                        case ConsoleKey.O: { ++idxMusic; ChooseMusic(); break; }//Bật tắt Music
-                        case ConsoleKey.Escape: Exit(); break;//Mở màn hình Exit
-                        case ConsoleKey.Enter: { ResetYPlayer(); ClearScreen(); ShowInGame(); gameOn = true; break; }//Vào game
-                    }
-                }
-                //Khi ở Costumes Menu
-                #region CostumesMenu
-                //Mở menu để chỉnh màu cho Player1
-                while (costumeP1 == true && costumesMenu == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }//Mở màn hình P2
-                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }//Mở màn hình Ball
-                        case ConsoleKey.Escape: { costumesMenu = false; ClearScreen(); MainMenu(); break; }
-                        //Chọn màu cho Player1
-                        case ConsoleKey.D1: { idxColorP1 = 1; SamplePlayer1(); break; }
-                        case ConsoleKey.D2: { idxColorP1 = 2; SamplePlayer1(); break; }
-                        case ConsoleKey.D3: { idxColorP1 = 3; SamplePlayer1(); break; }
-                        case ConsoleKey.D4: { idxColorP1 = 4; SamplePlayer1(); break; }
-                        case ConsoleKey.D5: { idxColorP1 = 5; SamplePlayer1(); break; }
-                        case ConsoleKey.D6: { idxColorP1 = 6; SamplePlayer1(); break; }
-                        case ConsoleKey.D7: { idxColorP1 = 7; SamplePlayer1(); break; }
-                        case ConsoleKey.D8: { idxColorP1 = 8; SamplePlayer1(); break; }
-                        case ConsoleKey.D9: { idxColorP1 = 9; SamplePlayer1(); break; }
-                    }
-                }
-                //Mở menu để chỉnh màu cho Player2
-                while (costumeP2 == true && costumesMenu == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }//Mở màn hình P1
-                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }// Mở màn hình Ball
-                        case ConsoleKey.Escape: { costumesMenu = false; ClearScreen(); MainMenu(); break; }
-                        case ConsoleKey.D1: { idxColorP2 = 1; SamplePlayer2(); break; }
-                        case ConsoleKey.D2: { idxColorP2 = 2; SamplePlayer2(); break; }
-                        case ConsoleKey.D3: { idxColorP2 = 3; SamplePlayer2(); break; }
-                        case ConsoleKey.D4: { idxColorP2 = 4; SamplePlayer2(); break; }
-                        case ConsoleKey.D5: { idxColorP2 = 5; SamplePlayer2(); break; }
-                        case ConsoleKey.D6: { idxColorP2 = 6; SamplePlayer2(); break; }
-                        case ConsoleKey.D7: { idxColorP2 = 7; SamplePlayer2(); break; }
-                        case ConsoleKey.D8: { idxColorP2 = 8; SamplePlayer2(); break; }
-                        case ConsoleKey.D9: { idxColorP2 = 9; SamplePlayer2(); break; }
-                    }
-                }
-                //Mở menu để chỉnh màu cho Ball
-                while (costumeBall == true && costumesMenu == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }
-                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }
-                        case ConsoleKey.Escape: { costumesMenu = false; ClearScreen(); MainMenu(); break; }
-                        case ConsoleKey.D1: { idxColorBall = 1; SampleBall(); break; }
-                        case ConsoleKey.D2: { idxColorBall = 2; SampleBall(); break; }
-                        case ConsoleKey.D3: { idxColorBall = 3; SampleBall(); break; }
-                        case ConsoleKey.D4: { idxColorBall = 4; SampleBall(); break; }
-                        case ConsoleKey.D5: { idxColorBall = 5; SampleBall(); break; }
-                        case ConsoleKey.D6: { idxColorBall = 6; SampleBall(); break; }
-                        case ConsoleKey.D7: { idxColorBall = 7; SampleBall(); break; }
-                        case ConsoleKey.D8: { idxColorBall = 8; SampleBall(); break; }
-                        case ConsoleKey.D9: { idxColorBall = 9; SampleBall(); break; }
-                    }
-                }
-                #endregion
 
-                //Khi vào game
-                while (gameOn == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.W: UpP1(); break;
-                        case ConsoleKey.S: DownP1(); break;
-                        case ConsoleKey.UpArrow: UpP2(); break;
-                        case ConsoleKey.DownArrow: DownP2(); break;
-                        case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; ClearScreen(); Pause(); break; }
-                    }
-                }
-                //Pause game
-                while (pauseMenuOn == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    switch (consoleKey)
-                    {
-                        case ConsoleKey.A: { ClearScreen(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false;  break; }
-                        case ConsoleKey.B: { ClearScreen();ResetYPlayer(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false; break; }
-                        //case ConsoleKey.B: DownP1(); break; Music
-                        case ConsoleKey.D: {ShowMenu(); pauseMenuOn = false; break; }
-                    }
-                }
-            }
-            while (true);
-        }
+        //Ball và hướng di chuyển 
+        #region Ball
         static void BallMove()
         {
             do
@@ -750,9 +643,12 @@ namespace PingPong5
                     //bên trái thua
                     else if (ballX == x + 1)
                     {
-                    p2Score++;
-                    int location = 75;
-                    PrintScore(p2Score, location);
+                        //Cộng điểm và in điểm
+                        p2Score++;
+                        PrintScore(p2Score, 72);
+                        WinGame();
+                        //bắt đầu lại
+
                         ballX = x + (width / 2);
                         ballY = y + (height / 2);
                         Console.SetCursorPosition(ballX, ballY);
@@ -764,9 +660,12 @@ namespace PingPong5
                     //bên phải thua
                     else if (ballX == x + width - 2)
                     {
-                    p1Score++;
-                    int location = 0;
-                    PrintScore(p1Score, location);
+                        //Cộng điểm và in điểm
+                        p1Score++;
+                        PrintScore(p1Score, 0);
+                        WinGame();
+                        //bắt đầu lại
+
                         ballX = x + (width / 2);
                         ballY = y + (height / 2);
                         Console.SetCursorPosition(ballX, ballY);
@@ -777,76 +676,173 @@ namespace PingPong5
                     }
                 }
             }
-            while(true);
+            while (true);
         }
-        static void PrintScore(int diem, int location)
+        #endregion
+
+        //Điểm 
+        #region Score
+        static void PrintScore(int score, int location)
         {
-            switch (diem)
+            switch (score)
             {
                 case 0:
                     {
-                        Console.SetCursorPosition(x+location, y-4);
+                        Console.SetCursorPosition(x + location, y - 4);
                         Console.WriteLine("   __  ");
-                        Console.SetCursorPosition(x+location, y-3);
+                        Console.SetCursorPosition(x + location, y - 3);
                         Console.WriteLine("  /  \\ ");
-                        Console.SetCursorPosition(x+location, y-2);
+                        Console.SetCursorPosition(x + location, y - 2);
                         Console.WriteLine(" | () |");
-                        Console.SetCursorPosition(x+location, y-1);
+                        Console.SetCursorPosition(x + location, y - 1);
                         Console.WriteLine("  \\__/ ");
                     }
                     break;
                 case 1:
                     {
-                        Console.SetCursorPosition(x+location, y-4);
-                        Console.WriteLine("  _ ");
-                        Console.SetCursorPosition(x+location, y-3);
-                        Console.WriteLine(" / |");
-                        Console.SetCursorPosition(x+location, y-2);
-                        Console.WriteLine(" | |");
-                        Console.SetCursorPosition(x+location, y-1);
-                        Console.WriteLine(" |_|");
+                        Console.SetCursorPosition(x + location, y - 4);
+                        Console.WriteLine("   _    ");
+                        Console.SetCursorPosition(x + location, y - 3);
+                        Console.WriteLine("  / |   ");
+                        Console.SetCursorPosition(x + location, y - 2);
+                        Console.WriteLine("  | |   ");
+                        Console.SetCursorPosition(x + location, y - 1);
+                        Console.WriteLine("  |_|   ");
                     }
                     break;
                 case 2:
                     {
-                        Console.SetCursorPosition(x+location, y-4);
+                        Console.SetCursorPosition(x + location, y - 4);
                         Console.WriteLine("  ___ ");
-                        Console.SetCursorPosition(x+location, y-3);
+                        Console.SetCursorPosition(x + location, y - 3);
                         Console.WriteLine(" |_  )");
-                        Console.SetCursorPosition(x+location, y-2);
+                        Console.SetCursorPosition(x + location, y - 2);
                         Console.WriteLine("  / / ");
-                        Console.SetCursorPosition(x+location, y-1);
+                        Console.SetCursorPosition(x + location, y - 1);
                         Console.WriteLine(" /___|");
                     }
                     break;
                 case 3:
                     {
-                        Console.SetCursorPosition(location, 0);
+                        Console.SetCursorPosition(x + location, y - 4);
                         Console.WriteLine("  ____");
-                        Console.SetCursorPosition(location, 1);
+                        Console.SetCursorPosition(x + location, y - 3);
                         Console.WriteLine(" |__ /");
-                        Console.SetCursorPosition(location, 2);
+                        Console.SetCursorPosition(x + location, y - 2);
                         Console.WriteLine("  |_ \\");
-                        Console.SetCursorPosition(location, 3);
+                        Console.SetCursorPosition(x + location, y - 1);
                         Console.WriteLine(" |___/");
                     }
                     break;
             }
         }
-        static void Pause()
+        static void Score()
         {
-            Console.SetCursorPosition(x + width / 3+1, y + height / 3+1);
-            Console.Write("Continue - Press A");
-            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 2);
-            Console.Write("Restart - Press B");
-            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 3);
-            Console.Write("Music - Press C");
-            Console.SetCursorPosition(x + width / 3 + 1, y + height / 3 + 4);
-            Console.Write("Back to MainMenu - Press D");
+            PrintScore(p1Score, 0);
+            PrintScore(p2Score, 72);
         }
-        static void Exit()
+        #endregion
+
+        //Wingame Menu
+        static void WinGame()
+        {
+                if (p1Score == 3)
+                {
+                    ClearScreen();
+                    Console.SetCursorPosition(x + width / 2 - 13, y + height / 2);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("<=|=>                <=|=>");
+                    Console.SetCursorPosition(x + width / 2 - 13, y + height / 2);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("      Play 1 Win Game      ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (p2Score == 3)
+                {
+                    ClearScreen();
+                    Console.SetCursorPosition(x + width / 2 - 13, y + height / 2);
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("<=|=>                <=|=>");
+                    Console.SetCursorPosition(x + width / 2 - 13, y + height / 2);
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("      Play 2 Win Game      ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }            
+        }
+
+        //Hiển thị giao diện
+        #region Show
+        //In khung và pingpong và main menu
+        static void ShowMenu()
         {
             ClearScreen();
+            PingPong();
+            Border();
+            MainMenu();
+        }
+        //In giao diện lúc vào game
+        static void ShowInGame()
+        {
+            ClearScreen();
+            Player1();
+            Player2();
+            Score();
+        }
+        #endregion
+        
+        //Reset các giá trị của player,ball,score về lúc bắt đầu
+        #region Reset
+        static void ResetInGame()
+        {
+            ResetYPlayer();
+            ResetBall();
+            ResetScore();
+        }
+        static void ResetYPlayer()
+        {
+            yP1 = y + 7;
+            yP2 = y + 7;
+        }
+        static void ResetBall()
+        {
+            ballX = x + (width / 2);
+            ballY = y + (height / 2);
+        }
+        static void ResetScore()
+        {
+            p1Score = 0;
+            p2Score = 0;
+            PrintScore(p1Score, 0);
+            PrintScore(p2Score, 72);
+        }
+        #endregion
+        
+        //Menu lúc pause game
+        static void PauseMenu()
+        {
+            ClearScreen();
+            Console.SetCursorPosition(x + width / 2 -5, y + 2);
+            Console.ForegroundColor= ConsoleColor.Magenta;
+            Console.Write("PAUSE MENU");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(x + width / 2 - 10, y + height / 3);
+            Console.Write("Continue - Press A");
+            Console.SetCursorPosition(x + width / 2 - 10, y + height / 3 + 2);
+            Console.Write("Restart - Press B");
+            Console.SetCursorPosition(x + width / 2 - 10, y + height / 3 + 4);
+            Console.Write("Music - Press C");
+            Console.SetCursorPosition(x + width / 2 - 10, y + height / 3 + 6);
+            Console.Write("Back to MainMenu - Press D");
+        }
+
+        //Menu Exit game
+        static void ExitMenu()
+        {
+            ClearScreen();
+            Console.SetCursorPosition(x + width / 2 - 5, y + 2);
+            Console.ForegroundColor= ConsoleColor.Red;
+            Console.Write("EXIT MENU");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(x + width / 3 - 3, y + height / 3+ 1 );
             Console.Write("Do you want to quit?\n");
             Console.SetCursorPosition(x + width / 3 - 3, y + height / 3 + 2);
@@ -858,7 +854,6 @@ namespace PingPong5
                 Console.SetCursorPosition(x + width / 3 - 3 +i, y + height / 3 );
                 Console.Write("─");
             }
-            
             
             char n;
             do
@@ -873,10 +868,10 @@ namespace PingPong5
             if (n == 'y')
             {
                 ClearScreen();
-                Console.SetCursorPosition(x + width / 3 , y + height / 3 + 1);
+                Console.SetCursorPosition(x + width / 2-10 , y + height / 3 + 1);
                 Console.ForegroundColor=ConsoleColor.Yellow;
                 Console.WriteLine("Thank for playing ");
-                Console.SetCursorPosition(x + width / 3 + 18, y + height / 3 + 1);
+                Console.SetCursorPosition(x + width / 2-10 + 18, y + height / 3 + 1);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("<3");
                 Thread.Sleep(1500);
@@ -887,10 +882,129 @@ namespace PingPong5
             else if (n == 'n')
                 ShowMenu();
         }
+
+        //Các lệnh để chuyển qua lại các Menu
+        static void Input()
+        {
+            do
+            {
+                //Khi ở Main Menu
+                while (costumesMenu == false && gameOn == false)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.A: ChooseEasy(); break;//Chọn mức dễ
+                        case ConsoleKey.B: ChooseNormal(); break;//Chọn mức trung bình
+                        case ConsoleKey.C: ChooseHard(); break;//Chọn mức khó
+                        case ConsoleKey.D: { costumesMenu = true; CostumesMenu(); break; }//Mở Costumes Menu
+                        case ConsoleKey.O: { ++idxMusic; ChooseMusic(); break; }//Bật tắt Music
+                        case ConsoleKey.Escape: ExitMenu(); break;//Mở màn hình Exit
+                        case ConsoleKey.Enter: { ResetInGame(); ShowInGame(); gameOn = true; break; }//Vào game
+                    }
+                }
+
+                //Khi ở Costumes Menu
+                #region CostumesMenu
+                //Mở menu costume để chỉnh màu cho Player1
+                while (costumeP1 == true && costumesMenu == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }//Mở màn hình P2
+                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }//Mở màn hình Ball
+                        case ConsoleKey.Escape: { costumesMenu = false; MainMenu(); break; }
+                        //Chọn màu cho Player1
+                        case ConsoleKey.D1: { idxColorP1 = 1; SamplePlayer1(); break; }
+                        case ConsoleKey.D2: { idxColorP1 = 2; SamplePlayer1(); break; }
+                        case ConsoleKey.D3: { idxColorP1 = 3; SamplePlayer1(); break; }
+                        case ConsoleKey.D4: { idxColorP1 = 4; SamplePlayer1(); break; }
+                        case ConsoleKey.D5: { idxColorP1 = 5; SamplePlayer1(); break; }
+                        case ConsoleKey.D6: { idxColorP1 = 6; SamplePlayer1(); break; }
+                        case ConsoleKey.D7: { idxColorP1 = 7; SamplePlayer1(); break; }
+                        case ConsoleKey.D8: { idxColorP1 = 8; SamplePlayer1(); break; }
+                        case ConsoleKey.D9: { idxColorP1 = 9; SamplePlayer1(); break; }
+                    }
+                }
+                //Mở menu costume để chỉnh màu cho Player2
+                while (costumeP2 == true && costumesMenu == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }//Mở màn hình P1
+                        case ConsoleKey.C: { costumeP1 = false; costumeP2 = false; costumeBall = true; SampleBall(); break; }// Mở màn hình Ball
+                        case ConsoleKey.Escape: { costumesMenu = false; MainMenu(); break; }
+                        //Chọn màu cho Player1
+                        case ConsoleKey.D1: { idxColorP2 = 1; SamplePlayer2(); break; }
+                        case ConsoleKey.D2: { idxColorP2 = 2; SamplePlayer2(); break; }
+                        case ConsoleKey.D3: { idxColorP2 = 3; SamplePlayer2(); break; }
+                        case ConsoleKey.D4: { idxColorP2 = 4; SamplePlayer2(); break; }
+                        case ConsoleKey.D5: { idxColorP2 = 5; SamplePlayer2(); break; }
+                        case ConsoleKey.D6: { idxColorP2 = 6; SamplePlayer2(); break; }
+                        case ConsoleKey.D7: { idxColorP2 = 7; SamplePlayer2(); break; }
+                        case ConsoleKey.D8: { idxColorP2 = 8; SamplePlayer2(); break; }
+                        case ConsoleKey.D9: { idxColorP2 = 9; SamplePlayer2(); break; }
+                    }
+                }
+                //Mở menu costume để chỉnh màu cho Ball
+                while (costumeBall == true && costumesMenu == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.A: { costumeP1 = true; costumeP2 = false; costumeBall = false; SamplePlayer1(); break; }
+                        case ConsoleKey.B: { costumeP1 = false; costumeP2 = true; costumeBall = false; SamplePlayer2(); break; }
+                        case ConsoleKey.Escape: { costumesMenu = false; MainMenu(); break; }
+                        //Chọn màu cho Ball
+                        case ConsoleKey.D1: { idxColorBall = 1; SampleBall(); break; }
+                        case ConsoleKey.D2: { idxColorBall = 2; SampleBall(); break; }
+                        case ConsoleKey.D3: { idxColorBall = 3; SampleBall(); break; }
+                        case ConsoleKey.D4: { idxColorBall = 4; SampleBall(); break; }
+                        case ConsoleKey.D5: { idxColorBall = 5; SampleBall(); break; }
+                        case ConsoleKey.D6: { idxColorBall = 6; SampleBall(); break; }
+                        case ConsoleKey.D7: { idxColorBall = 7; SampleBall(); break; }
+                        case ConsoleKey.D8: { idxColorBall = 8; SampleBall(); break; }
+                        case ConsoleKey.D9: { idxColorBall = 9; SampleBall(); break; }
+                    }
+                }
+                #endregion
+
+                //Khi vào game
+                while (gameOn == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.W: UpP1(); break;
+                        case ConsoleKey.S: DownP1(); break;
+                        case ConsoleKey.UpArrow: UpP2(); break;
+                        case ConsoleKey.DownArrow: DownP2(); break;
+                        case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; PauseMenu(); break; }
+                    }
+                }
+
+                //Khi pause game
+                while (pauseMenuOn == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.A: { ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false; break; }
+                        case ConsoleKey.B: { ResetInGame(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false; break; }
+                        case ConsoleKey.C: { ++idxMusic; break; }
+                        case ConsoleKey.D: { ShowMenu(); pauseMenuOn = false; break; }
+                    }
+                }
+            }
+            while (true);
+        }
+
         static void Whole()
         {
-            Thread show = new Thread(ShowMenu);
-            show.Start();
+            Thread showMenu = new Thread(ShowMenu);
+            showMenu.Start();
             Thread inputMainMenu = new Thread(Input);
             inputMainMenu.Start();
             Thread ballMove = new Thread(BallMove);
