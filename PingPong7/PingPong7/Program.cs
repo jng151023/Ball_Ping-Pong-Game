@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +24,7 @@ namespace PingPong7
         //Ball
         static int ballX = x + (width / 2);//Vị trí bắt đầu của Ball theo cột
         static int ballY = y + (height / 2);//Vị trí bắt đầu của Ball theo dòng
-        static int dx = 1, dy = 1; //Biến điều chỉnh hướng đi của Ball
+        static int dx, dy; //Biến điều chỉnh hướng đi của Ball
         static int speed = 120;//Tốc độc của Ball
 
         //Tính điểm
@@ -53,7 +53,6 @@ namespace PingPong7
         //Color
         static int idxColorP1 = 1;//Màu của Player1
         static int idxColorP2 = 1;//Màu của Player2
-        static int idxColorBall = 1;//Màu của Ball
 
         //Menu Costumes
         static bool costumesMenu = false;//Biến để bật tắt menu costumes
@@ -65,6 +64,7 @@ namespace PingPong7
         static bool winGameOn = false;//Biến mở lúc win game
 
         static ConsoleKey consoleKey;//Biến để nhập từ bàn phím vào
+        static Random random = new Random();
         #endregion
         static void Main(string[] args)
         {
@@ -78,7 +78,7 @@ namespace PingPong7
         {
             Console.SetCursorPosition(39, 2);
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(",___ ._. _  _  ___   ,___  ___  _  _  ___");
+            Console.Write(" ___  _  _  _  ___    ___  ___  _  _  ___");
             Console.SetCursorPosition(39, 3);
 
             Console.Write("| _ \\| || \\| |/ __|  | _ \\/ _ \\| \\| |/ __|");
@@ -264,7 +264,7 @@ namespace PingPong7
         {
             ClearScreen();
             Console.SetCursorPosition(x + width / 2 - 5, y + 2);
-            Console.ForegroundColor= ConsoleColor.DarkMagenta;
+            Console.ForegroundColor= ConsoleColor.Cyan;
             Console.Write("MAIN MENU");
             Console.SetCursorPosition(x + 2, y + height - 2);
             Console.ForegroundColor = ConsoleColor.Red;
@@ -557,23 +557,27 @@ namespace PingPong7
         #region Player
         static void Player1()
         {
-            IdxColor(idxColorP1);
+            
             for (int i = 0; i < lengthP; i++)
             {
+                IdxColor(idxColorP1);
                 Console.SetCursorPosition(x + 1, yP1 + i);
                 Console.WriteLine(" ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
-            Console.BackgroundColor = ConsoleColor.Black;
+            
         }
         static void Player2()
         {
-            IdxColor(idxColorP2);
+            
             for (int i = 0; i < lengthP; i++)
             {
                 Console.SetCursorPosition(x + width - 2, yP2 + i);
+                IdxColor(idxColorP2);
                 Console.WriteLine(" ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
-            Console.BackgroundColor = ConsoleColor.Black;
+            
         }
 
         //Chuyển động của Player
@@ -584,13 +588,13 @@ namespace PingPong7
             Player1();
             Console.SetCursorPosition(x + 1, yP1 + lengthP);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
+            Console.WriteLine(" ");
         }
         static void DownP1()
         {
             Console.SetCursorPosition(x + 1, yP1);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
+            Console.WriteLine(" ");
             yP1++;
             if (yP1 + lengthP > y + height - 1)
                 yP1--;
@@ -603,13 +607,13 @@ namespace PingPong7
             Player2();
             Console.SetCursorPosition(x + width - 2, yP2 + lengthP);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
+            Console.WriteLine(" ");
         }
         static void DownP2()
         {
             Console.SetCursorPosition(x + width - 2, yP2);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
+            Console.WriteLine(" ");
             yP2++;
             if (yP2 + lengthP > y + height - 1)
                 yP2--;
@@ -621,6 +625,12 @@ namespace PingPong7
         #region Ball
         static void BallMove()
         {
+            dx = random.Next(-1, 2);
+            if (dx == 0)
+                dx = 1;
+            dy = random.Next(-1, 2);
+            if (dy == 0)
+                dy = 1;
             do
             {
                 while (gameOn == true)
@@ -628,10 +638,10 @@ namespace PingPong7
                     if (ballY >= y + 1 && ballY <= y + height - 2 && ballX >= x + 1 && ballX <= x + width - 2)
                     {
                         Console.SetCursorPosition(ballX, ballY);
-                        Console.WriteLine("O");
+                        Console.Write("O");
                         Thread.Sleep(speed); //thay đổi tốc độ hiện banh mới
                         Console.SetCursorPosition(ballX, ballY);
-                        Console.WriteLine(" ");
+                        Console.Write(" ");
                     }
                     ballX += 1 * dx;
                     ballY += 1 * dy;
@@ -643,14 +653,14 @@ namespace PingPong7
                     else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 2);
+                        dy = random.Next(-1, 2);
                         if (dy == 0) dy = 1;
                     }
                     //đụng thanh chơi bên phải quay đầu
                     else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
                     {
                         dx *= -1;
-                        dy = new Random().Next(-1, 2);
+                        dy = random.Next(-1, 2);
                         if (dy == 0) dy = 1;
                     }
 
@@ -666,15 +676,17 @@ namespace PingPong7
                             WinGame();
                             continue;
                         }
-                        //Bắt đầu lại
 
-                        ballX = x + (width / 2);
-                        ballY = y + (height / 2);
+                        //Bắt đầu lại
+                        ResetBall();
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
-                        dx = 1;
-                        dy = new Random().Next(-1, 2);
-                        if (dy == 0) dy = 1;
+                        dx = random.Next(-1, 2);
+                        if (dx == 0)
+                            dx = 1;
+                        dy = random.Next(-1, 2);
+                        if (dy == 0)
+                            dy = 1;
                     }
 
                     //bên phải thua
@@ -689,21 +701,24 @@ namespace PingPong7
                             WinGame();
                             continue;
                         }
-                        //Bắt đầu lại
 
-                        ballX = x + (width / 2);
-                        ballY = y + (height / 2);
+                        //Bắt đầu lại
+                        ResetBall();
                         Console.SetCursorPosition(ballX, ballY);
                         Console.WriteLine("O");
-                        dx = 1;
-                        dy = new Random().Next(-1, 2);
-                        if (dy == 0) dy = 1;
+                        dx = random.Next(-1, 2);
+                        if (dx == 0)
+                            dx = 1;
+                        dy = random.Next(-1, 2);
+                        if (dy == 0)
+                            dy = 1;
                     }
                 }
             }
             while (true);
         }
         #endregion
+
         //Điểm 
         #region Score
         static void PrintScore(int score, int location)
@@ -776,21 +791,21 @@ namespace PingPong7
             ClearScreen();
             Console.SetCursorPosition(x + width / 2 - 13, y + height / 2 - 3);
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("<><><                 ><><>");
+            Console.WriteLine("<><><                  ><><>");
             Console.SetCursorPosition(x + width / 2 - 7, y + height / 2 - 3);
             Console.ForegroundColor = ConsoleColor.Yellow;
             if (p1Score == 3)
-                Console.WriteLine("Play 1 Win Game");
+                Console.WriteLine("Player1 Win Game");
             else if (p2Score == 3)
-                Console.WriteLine("Play 2 Win Game");
+                Console.WriteLine("Player2 Win Game");
             Console.ForegroundColor = ConsoleColor.White;
 
 
-            Console.SetCursorPosition(x + width / 2 - 14, y + height / 2);
+            Console.SetCursorPosition(x + width / 2 - 12, y + height / 2-1);
             Console.WriteLine("Do you want to play again?");
-            Console.SetCursorPosition(x + width / 2 - 14, y + height / 2 + 1);
+            Console.SetCursorPosition(x + width / 2 - 12, y + height / 2 );
             Console.WriteLine("Yes - Press 1");
-            Console.SetCursorPosition(x + width / 2 - 14, y + height / 2 + 2);
+            Console.SetCursorPosition(x + width / 2 - 12, y + height / 2 + 1);
             Console.WriteLine("No - Press 0");
         }
         #endregion
@@ -988,6 +1003,27 @@ namespace PingPong7
                         case ConsoleKey.UpArrow: UpP2(); break;
                         case ConsoleKey.DownArrow: DownP2(); break;
                         case ConsoleKey.Escape: { pauseMenuOn = true; gameOn = false; PauseMenu(); break; }
+                        case ConsoleKey.D1://Khi win game nhấn 1 để chơi tiếp
+                            {
+                                if (winGameOn == true)
+                                {
+                                    ResetInGame();
+                                    ShowInGame();
+                                    gameOn = true;
+                                    winGameOn = false;
+                                }
+                                break;
+                            }
+                            
+                        case ConsoleKey.D0://Khi win game nhấn 0 để trở về Main Menu
+                            {
+                                if (winGameOn == true)
+                                {
+                                    ShowMenu();
+                                    winGameOn = false;
+                                }
+                                break;
+                            }
                     }
                 }
 
@@ -1001,24 +1037,6 @@ namespace PingPong7
                         case ConsoleKey.B: { ResetInGame(); ShowInGame(); Thread.Sleep(200); gameOn = true; pauseMenuOn = false; break; }
                         case ConsoleKey.C: { ++idxMusic; break; }
                         case ConsoleKey.D: { ShowMenu(); pauseMenuOn = false; break; }
-                    }
-                }
-
-                //Khi chiến thắng
-                while (winGameOn == true)
-                {
-                    consoleKey = Console.ReadKey(true).Key;
-                    if (consoleKey == ConsoleKey.D1)
-                    {
-                        ResetInGame();
-                        ShowInGame();
-                        gameOn = true;
-                        winGameOn = false;
-                    }
-                    if (consoleKey == ConsoleKey.D0)
-                    {
-                        ShowMenu();
-                        winGameOn = false;
                     }
                 }
             }
