@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -68,13 +68,13 @@ namespace PingPong8
         static ConsoleKey consoleKey;//Biến để nhập từ bàn phím vào
         static Random random = new Random();
 
-        static bool up1, up2, down1, down2;
+        static bool up1, up2, down1, down2;//Biến này dùng để xóa vị trí cũ của player khi di chuyển
 
         #endregion
         static void Main(string[] args)
         {
             Console.CursorVisible = true;
-            Whole();
+            MultiThreading();
         }
 
         //Tên và khung viền
@@ -219,13 +219,22 @@ namespace PingPong8
             while (true);
         }
 
+        #region Clear
+
+        //Xóa tất cả
+        static void ClearAll()
+        {
+            ClearScreen();
+            ClearESCInGame();
+            ClearScore();
+        }
+
         //Hàm xóa màn hình 
         static void ClearScreen()
         {
             //Xóa toàn bộ trong border
             for (int i = 0; i < height - 2; i++)
             {
-
                 for (int j = 0; j < width - 2; j++)
                 {
                     Console.SetCursorPosition(x + 1 + j, y + 1 + i);
@@ -233,7 +242,11 @@ namespace PingPong8
                 }
                 Console.WriteLine();
             }
+        }
 
+        //Hàm để xóa hiển thị điểm
+        static void ClearScore()
+        {
             //Xóa điểm của P1
             for (int i = 0; i < 4; i++)
             {
@@ -255,19 +268,25 @@ namespace PingPong8
                 }
                 Console.WriteLine();
             }
-            //Xóa thông báo "Press ESC to Pause game" trong game
+        }
+
+        //Xóa thông báo "Press ESC to Pause game" trong game
+        static void ClearESCInGame()
+        {
             for (int i = 0; i < 23; i++)
             {
                 Console.SetCursorPosition(x + 2 + i, y + height);
                 Console.Write(' ');
             }
         }
+        
+        #endregion
 
         //MainMenu, CostumeMenu
         #region Menu
         static void MainMenu()
         {
-            ClearScreen();
+            ClearAll();
             Console.SetCursorPosition(x + width / 2 - 5, y + 2);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("MAIN MENU");
@@ -778,6 +797,7 @@ namespace PingPong8
             gameOn = false;
             winGameOn = true;
             ClearScreen();
+            ClearESCInGame();
             Console.SetCursorPosition(x + width / 2 - 13, y + height / 2 - 3);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("<><><                  ><><>");
@@ -804,7 +824,7 @@ namespace PingPong8
         //In khung và pingpong và main menu
         static void ShowMenu()
         {
-            ClearScreen();
+            ClearAll();
             PingPong();
             Border();
             MainMenu();
@@ -813,6 +833,7 @@ namespace PingPong8
         static void ShowInGame()
         {
             ClearScreen();
+            ClearScore();
             Console.SetCursorPosition(x + 2, y + height);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Press ESC to Pause game");
@@ -854,6 +875,7 @@ namespace PingPong8
         static void PauseMenu()
         {
             ClearScreen();
+            ClearESCInGame();
             Console.SetCursorPosition(x + width / 2 - 5, y + 2);
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write("PAUSE MENU");
@@ -1017,7 +1039,7 @@ namespace PingPong8
                         case ConsoleKey.DownArrow: 
                             { 
                                 yP2++;
-                                if (yP2 + lengthP > y + height - 1//nếu đụng dưới thì giảm yP2 xuống 1 đơn vị
+                                if (yP2 + lengthP > y + height - 1)//nếu đụng dưới thì giảm yP2 xuống 1 đơn vị
                                     yP2--;
                                 up2 = false; 
                                 down2 = true; 
@@ -1082,8 +1104,7 @@ namespace PingPong8
             while (true);
         }
 
-
-        static void Whole()
+        static void MultiThreading()
         {
             Thread showMenu = new Thread(ShowMenu);
             Thread input = new Thread(Input);
