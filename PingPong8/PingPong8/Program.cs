@@ -60,6 +60,8 @@ namespace PingPong8
         static bool costumesMenu = false;//Biến để bật tắt menu costumes
         static bool costumeP1 = true;//Chọn màu cho Player1
         static bool costumeP2 = false;//Chọn màu cho Player2
+        //Menu HowtoPlay
+        static bool howToPlay = false;
 
         static bool gameOn = false;//Biến bắt đầu trò chơi
         static bool pauseMenuOn = false;//Biến để bật menu pause game
@@ -73,7 +75,7 @@ namespace PingPong8
         #endregion
         static void Main(string[] args)
         {
-            Console.CursorVisible = true;
+            Console.CursorVisible = false;
             MultiThreading();
         }
 
@@ -301,6 +303,7 @@ namespace PingPong8
             Difficulty();
             Costumes();
             Music();
+            HowToPlay();
         }
         #region Difficulty
         static void Difficulty()
@@ -573,6 +576,58 @@ namespace PingPong8
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
+        }
+        #endregion
+        #region HowToPlay
+        static void HowToPlay()
+        {
+            Console.SetCursorPosition(xMenu, yMenu + 6);
+            Console.Write("How to Play: Press E");
+        }
+        static void HowToPlayMenu()
+        {
+            ClearScreen();
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.SetCursorPosition(x +width/2 - 5, y + 2);
+            Console.Write("HOW_TO_PLAY ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(x+10, y +height/4);
+            Console.Write("Player 1 (left): ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(x + 12, y + height / 4 +1);
+            Console.Write("- Move up: W ");
+            Console.SetCursorPosition(x + 12, y + height / 4 +2);
+            Console.Write("- Move down: S ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(x + width / 2+2, y + height / 4);
+            Console.Write("Player 2 (right): ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(x + width / 2+2, y + height / 4 +1);
+            Console.Write("- Move up: UpArrown ");
+            Console.SetCursorPosition(x + width / 2+2, y + height / 4+2);
+            Console.Write("- Move down: DownArrown ");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(x + 12 , y + height / 4+4);
+            Console.Write("Rules: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(x + 14, y + height / 4 +5);
+            Console.Write("Player move up or down to touch Ball");
+            Console.SetCursorPosition(x + 14, y + height / 4 + 6);
+            Console.Write("If Ball touch the left border -> Player 2 get score");
+            Console.SetCursorPosition(x + 14, y + height / 4 + 7);
+            Console.Write("If Ball touch the left border -> Player 1 get score");
+            Console.SetCursorPosition(x + 14, y + height / 4 + 8);
+            Console.Write("When a Player get 3 point -> win game");
+
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.SetCursorPosition(x + 2, y + height -2);
+            Console.Write("Press ESC to back to Main Menu ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         #endregion
         #endregion
@@ -944,7 +999,7 @@ namespace PingPong8
             do
             {
                 //Khi ở Main Menu
-                while (costumesMenu == false && gameOn == false && winGameOn == false)
+                while (costumesMenu == false && howToPlay == false && gameOn == false && winGameOn == false)
                 {
                     consoleKey = Console.ReadKey(true).Key;
                     switch (consoleKey)
@@ -954,6 +1009,7 @@ namespace PingPong8
                         case ConsoleKey.C: ChooseHard(); break;//Chọn mức khó
                         case ConsoleKey.D: { costumesMenu = true; CostumesMenu(); break; }//Mở Costumes Menu
                         case ConsoleKey.O: { ++idxMusic; ChooseMusic(); break; }//Bật tắt Music
+                        case ConsoleKey.E: { howToPlay = true; HowToPlayMenu(); break; }//Bật tắt Music
                         case ConsoleKey.Escape: ExitMenu(); break;//Mở Menu Exit
                         case ConsoleKey.Enter: { ResetInGame(); ShowInGame(); gameOn = true; break; }//Vào game
                     }
@@ -1002,6 +1058,17 @@ namespace PingPong8
                     }
                 }
                 #endregion
+
+                ////Khi ở HowtoPlay menu
+                while (howToPlay == true)
+                {
+                    consoleKey = Console.ReadKey(true).Key;
+                    if (consoleKey == ConsoleKey.Escape)
+                    {
+                        ShowMenu();
+                        howToPlay = false;
+                    }
+                }
 
                 //Khi vào game
                 while (gameOn == true && winGameOn == false)
