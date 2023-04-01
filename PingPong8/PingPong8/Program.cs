@@ -17,25 +17,26 @@ namespace PingPong8
         static int width = 80;// Chiều rộng border
 
         //Player
-        static int xP1 = x + 1;
-        static int xP2 = x + width - 2;
-        static int yP1;//Vị trí của Player1
-        static int yP2;//Vị trí của Player2
+        static int xP1 = x + 1; //Vị trí của Player1 tính theo cột
+        static int xP2 = x + width - 2; //Vị trí của Player2 tính theo cột
+        static int yP1;//Vị trí của Player1 tính theo hàng
+        static int yP2;//Vị trí của Player2 tính theo hàng
         static int lengthP = 6;//Chiều dài Player
+        static bool up1, up2, down1, down2;//Biến này dùng để xóa vị trí cũ của player khi di chuyển
 
         //Ball
         static int ballX = x + (width / 2);//Vị trí bắt đầu của Ball theo cột
         static int ballY = y + (height / 2);//Vị trí bắt đầu của Ball theo dòng
         static int dx, dy; //Biến điều chỉnh hướng đi của Ball
-        static int speed = 120;//Tốc độc của Ball
+        static int speed = 120;//Tốc độ của Ball 
 
         //Tính điểm
-        static int p1Score = 0;//Biến tính điểm cho player1
-        static int p2Score = 0;//Biến tính điểm cho player2
+        static int p1Score = 0;//Biến điểm cho player1
+        static int p2Score = 0;//Biến điểm cho player2
 
         //Menu
-        static int xMenu = x + 10;//Vị trí theo cột các thành phần trong menu
-        static int yMenu = y + 5;//Vị trí theo dòng các thành phần trong menu
+        static int xMenu = x + 10;//Vị trí các thành phần trong menu theo cột
+        static int yMenu = y + 5;//Vị trí các thành phần trong menu theo dòng
 
         //Music
         static int idxMusic = 0;//Biến để bật tắt music
@@ -60,8 +61,9 @@ namespace PingPong8
         static bool costumesMenu = false;//Biến để bật tắt menu costumes
         static bool costumeP1 = true;//Chọn màu cho Player1
         static bool costumeP2 = false;//Chọn màu cho Player2
+
         //Menu HowtoPlay
-        static bool howToPlay = false;
+        static bool howToPlay = false; // Biến để bật tắt menu How to play
 
         static bool gameOn = false;//Biến bắt đầu trò chơi
         static bool pauseMenuOn = false;//Biến để bật menu pause game
@@ -70,13 +72,11 @@ namespace PingPong8
         static ConsoleKey consoleKey;//Biến để nhập từ bàn phím vào
         static Random random = new Random();
 
-        static bool up1, up2, down1, down2;//Biến này dùng để xóa vị trí cũ của player khi di chuyển
-
         #endregion
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-            MultiThreading();
+            Console.CursorVisible = false;//Xóa con trỏ nhấp nháy khi chạy chương trình
+            MultiThreading();//Gọi hàm chạy chương trình
         }
 
         //Tên và khung viền
@@ -310,7 +310,6 @@ namespace PingPong8
         {
             Console.SetCursorPosition(xMenu, yMenu);
             Console.Write("Difficulty:      (Press A)        (Press B)      (Press C)");
-
 
             if (speed == 120)
             {
@@ -692,13 +691,13 @@ namespace PingPong8
         static void RandomBallX()
         {
             dx = random.Next(-1, 2);
-            if (dx == 0)
+            if (dx == 0) //Nếu vào 0 thì coi như nó là 1
                 dx = 1;
         }
         static void RandomBallY()
         {
             dy = random.Next(-1, 2);
-            if (dy == 0)
+            if (dy == 0) //Nếu vào 0 thì coi như nó là 1
                 dy = 1;
         }
         #endregion
@@ -718,23 +717,26 @@ namespace PingPong8
                     {
                         Ball();
                     }
+
+                    //cộng thêm 1 đơn vị vào dx,dy để tạo ra vị trí mới của Ball
                     ballX += 1 * dx;
                     ballY += 1 * dy;
-
-                    //đụng trên, đụng dưới quay đầu
+                    
+                    // Xét nếu Ball đụng trên hoặc đụng dưới thì quay đầu
                     if (ballY == y + 1 || ballY >= y + height - 2)
-                        dy *= -1;
+                        dy *= -1;//Do đụng trên và dưới là xét dòng nên nhân dòng cho -1
+
                     //đụng Player1 (trái) quay đầu
                     else if (ballX == x + 2 && ballY >= yP1 && ballY <= yP1 + lengthP)
                     {
-                        dx *= -1;
-                        RandomBallY();
+                        dx *= -1;//Do đụng hai bên là xét theo cột nên nhân cột cho -1
+                        RandomBallY();//Random dòng 
                     }
                     //đụng Player2 (phải) quay đầu
                     else if (ballX == x + width - 3 && ballY >= yP2 && ballY <= yP2 + lengthP)
                     {
-                        dx *= -1;
-                        RandomBallY();
+                        dx *= -1; //Do đụng hai bên là xét theo cột nên nhân cột cho -1
+                        RandomBallY();//Random dòng 
                     }
 
                     //Player1 thua
@@ -784,7 +786,7 @@ namespace PingPong8
 
         //Điểm 
         #region Score
-        static void PrintScore(int score, int location)
+        static void PrintScore(int score, int location)     
         {
             switch (score)
             {
